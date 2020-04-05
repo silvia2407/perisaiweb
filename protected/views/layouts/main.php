@@ -117,6 +117,7 @@
               </p>
             </a>
           </li>
+          <?php if($_SESSION['role']==1){?>
           <li class="nav-item">
             <a href="pages/calendar.html" class="nav-link">
               <i class="nav-icon far fa-plus-square"></i>
@@ -125,6 +126,7 @@
               </p>
             </a>
           </li>
+          <?php } ?>
           <li class="nav-item">
             <a href="pages/calendar.html" class="nav-link">
               <i class="nav-icon fas fa-table"></i>

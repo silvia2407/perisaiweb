@@ -43,7 +43,9 @@ class SiteController extends Controller
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('dashboard','logout'),
-				'users'=>array('@'),
+                                'expression'=>function($user){
+                                        return $_SESSION['role']<=2;
+                                },
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -57,6 +59,7 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
+            
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
 		//$this->render('index');
@@ -67,7 +70,9 @@ class SiteController extends Controller
 	{
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
-		$this->render('index');
+                //echo $_SESSION['token'].' '.$_SESSION['role'].' '.$_SESSION['status_login']; 
+              
+            $this->render('index');
 	}
 
 	/**
@@ -118,32 +123,31 @@ class SiteController extends Controller
 		$model=new LoginForm;
                 
                 if(isset($_POST['username']) && isset($_POST['password'])){
+                    
                     $model->username=$_POST['username'];
                     $model->password=$_POST['password'];
-                    if($model->validate() && $model->login()){
-                        //echo "berhasil";
-                        //exit;
-                        $this->redirect(array("dashboard"));
+                    if($model->validate()){
+                        
+                        $data_array =  array(
+                            "username" =>$_POST['username'],
+                            "password"=> $_POST['password']
+                        );
+                        
+                        $data=http_build_query($data_array);
+                        
+                        $result=$this->callAPI("POST", "https://apiperisai.herokuapp.com/user/login", $data);
+                        
+                        $response = json_decode($result, true);
+                        if($response['status']==200){
+                            
+                            $_SESSION['token']=$response['data']['token'];
+                            $_SESSION['role']=$response['data']['user']['role'];
+                            $_SESSION['status_login']=1;
+                            $this->redirect(array("dashboard"));
+                        }
                     }
                         
                 }
-
-		// if it is ajax validation request
-//		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
-//		{
-//			echo CActiveForm::validate($model);
-//			Yii::app()->end();
-//		}
-
-		// collect user input data
-//		if(isset($_POST['LoginForm']))
-//		{
-//			$model->attributes=$_POST['LoginForm'];
-//			// validate user input and redirect to the previous page if valid
-//			if($model->validate() && $model->login())
-//				$this->redirect(Yii::app()->user->returnUrl);
-//		}
-		// display the login form
 		$this->renderPartial('login',array('model'=>$model));
 	}
 
@@ -152,7 +156,45 @@ class SiteController extends Controller
 	 */
 	public function actionLogout()
 	{
-		Yii::app()->user->logout();
+		
+                session_destroy();
+                
 		$this->redirect(Yii::app()->homeUrl);
 	}
+        
+        function callAPI($method, $url, $data=false)
+        {
+            
+            $curl = curl_init();
+
+            switch ($method)
+            {
+                case "POST":
+                    curl_setopt($curl, CURLOPT_POST, 1);
+
+                    if ($data){
+                        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                    }
+                    break;
+                case "PUT":
+                    curl_setopt($curl, CURLOPT_PUT, 1);
+                    break;
+                default:
+                    if ($data)
+                        $url = sprintf("%s?%s", $url, http_build_query($data));
+            }
+
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+              //'jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9leGFtcGxlLm9yZyIsImF1ZCI6Imh0dHA6XC9cL2V4YW1wbGUuY29tIiwiaWF0IjoxMzU2OTk5NTI0LCJuYmYiOjEzNTcwMDAwMDAsImRhdGEiOnsiaWQiOiI5IiwiZmlyc3RuYW1lIjoiTWlrZSIsImxhc3RuYW1lIjoiRGFsaXNheSIsImVtYWlsIjoibWlrZUBjb2Rlb2ZhbmluamEuY29tIn19.h_Q4gJ3epcpwdwNCNCYxtiKdXsN34W9MEjxZ7sx21Vs',
+              'Content-Type: application/x-www-form-urlencoded',
+           ));
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            $result = curl_exec($curl);
+
+            curl_close($curl);
+
+            return $result;
+        }
 }
+?>
