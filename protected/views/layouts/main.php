@@ -93,12 +93,37 @@
       </div>
 
       <!-- Sidebar Menu -->
+      <?php 
+            $explode1=explode("php?r=",$_SERVER['REQUEST_URI']);
+            $halaman=explode("/",$explode1[1]); 
+            $class_menu_dashboard="nav-link";
+            $class_menu_profil="nav-link";
+            $class_menu_faskes="nav-link";
+            $class_menu_odp="nav-link";
+            if($halaman[0]=="site"){
+                $active_page="Dashboard";
+                $class_menu_dashboard="nav-link active";
+            }
+            else if($halaman[0]=="profil"){
+                $active_page="Profil";
+                $class_menu_profil="nav-link active";
+            }
+            else if($halaman[0]=="faskes"){
+                $active_page="Faskes";
+                $class_menu_faskes="nav-link active";
+            }
+            else{
+                $active_page="Orang Dalam Pengawasan";
+                $class_menu_odp="nav-link active";
+            }
+      ?> 
+      
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           
           <li class="nav-header"><!--EXAMPLES--></li>
           <li class="nav-item">
-            <a href="pages/calendar.html" class="nav-link active">
+            <a href="<?php echo Yii::app()->controller->createUrl('site/dashboard')?>" class="<?php echo $class_menu_dashboard; ?>">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -107,7 +132,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="pages/calendar.html" class="nav-link">
+            <a href="<?php echo Yii::app()->controller->createUrl('profil/index')?>" class="<?php echo $class_menu_profil; ?>">
               <i class="nav-icon far fa-image"></i>
               <p>
                 Profil
@@ -117,7 +142,7 @@
           </li>
           <?php if($_SESSION['role']==1){?>
           <li class="nav-item">
-            <a href="pages/calendar.html" class="nav-link">
+            <a href="<?php echo Yii::app()->controller->createUrl('faskes/all')?>" class="<?php echo $class_menu_faskes; ?>">
               <i class="nav-icon far fa-plus-square"></i>
               <p>
                 Faskes
@@ -126,7 +151,7 @@
           </li>
           <?php } ?>
           <li class="nav-item">
-            <a href="pages/calendar.html" class="nav-link">
+            <a href="pages/calendar.html" class="<?php echo $class_menu_odp; ?>">
               <i class="nav-icon fas fa-table"></i>
               <p>
                 ODP
@@ -155,12 +180,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Dashboard</h1>
+            <h1 class="m-0 text-dark"><?php echo $active_page; ?></h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="<?php echo Yii::app()->request->baseUrl; ?>">Home</a></li>
-              <li class="breadcrumb-item active">Dashboard</li>
+              <li class="breadcrumb-item active"><?php echo $active_page; ?></li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->

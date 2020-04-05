@@ -1,6 +1,6 @@
 <?php
 
-class ProfilController extends Controller
+class FaskesController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -28,9 +28,9 @@ class ProfilController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index'),
+				'actions'=>array('all'),
                                 'expression'=>function($user){
-                                        return $_SESSION['role']<=2;
+                                        return $_SESSION['role']<=1;
                                 },
 			),
                         array('deny',  // deny all users
@@ -39,13 +39,8 @@ class ProfilController extends Controller
 		);
 	}
 
-	public function actionIndex(){
-            $_SESSION['user_id'];
-            if($_SESSION['role']==1){
-                $this->render('profilDinkes');
-            }else if($_SESSION['role']==2){
-                $this->render('profilFaskes');
-            }
+	public function actionAll(){
+            $this->render('all');
             
         }
         /**
