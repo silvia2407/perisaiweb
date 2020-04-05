@@ -142,7 +142,14 @@ class SiteController extends Controller
                             
                             $_SESSION['token']=$response['data']['token'];
                             $_SESSION['role']=$response['data']['user']['role'];
+                            $_SESSION['user_id']=$response['data']['user']['id'];
                             $_SESSION['status_login']=1;
+                            if($_SESSION['role']==1){
+                                $name="Dinkes";
+                            }else if($_SESSION['role']==2){
+                                $name="Faskes";
+                            }
+                            $_SESSION['name']=$name;
                             $this->redirect(array("dashboard"));
                         }
                     }
