@@ -6,7 +6,7 @@ class ProfilController extends Controller
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	//public $layout='//layouts/column3';
+	//public $layout='//layouts/column1';
 
 	/**
 	 * @return array action filters
@@ -28,7 +28,7 @@ class ProfilController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index'),
+				'actions'=>array('index','view','password','test'),
                                 'expression'=>function($user){
                                         return $_SESSION['role']<=2;
                                 },
@@ -40,13 +40,54 @@ class ProfilController extends Controller
 	}
 
 	public function actionIndex(){
-            $_SESSION['user_id'];
-            if($_SESSION['role']==1){
+            if($_SESSION['role']==2){
                 $this->render('profilDinkes');
-            }else if($_SESSION['role']==2){
-                $this->render('profilFaskes');
+            }else if($_SESSION['role']==1){
+                $result=Api::model()->callAPI("GET", "/getFaskesUser/".$_SESSION['user_id'], false);
+
+                $response = json_decode($result, true);
+                
+                if($response['code']==200){
+                    $this->render('profilFaskes', array('model'=>$response['data'][0]));
+                }
+                
             }
             
+        }
+        
+        public function actionPassword(){
+            $data_array =  array(
+                "password"=> $_POST['password']
+            );
+
+            $data=http_build_query($data_array);
+            
+            $result=Api::model()->callAPI($_POST['type'], "/user/".$_SESSION['user_id'], $data);
+
+            $response = json_decode($result, true);
+            if($response['status']==200){
+                echo $_POST['password'];
+            }else{
+                //echo print_r($response);
+                echo 2;
+            }
+        }
+        
+        public function actionTest(){
+            $data_array =  array(
+                "password"=> "ga"
+            );
+
+            $data=http_build_query($data_array);
+            
+            $result=Api::model()->callAPI("PUT", "/user/".$_SESSION['user_id'], $data);
+
+            $response = json_decode($result, true);
+            if($response['status']==200){
+                echo $_POST['password'];
+            }else{
+                echo print_r($response);
+            }
         }
         /**
 	 * Displays a particular model.

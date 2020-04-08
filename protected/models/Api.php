@@ -31,6 +31,14 @@ class Api extends CActiveRecord
             $curl = curl_init();
             $baseUrl="https://twitterjobvacancy.online/api_perisai/public";
             $url=$baseUrl.$url;
+//            
+//            if($data==false){
+//               echo "fas";
+//               exit; 
+//            }else{
+//                echo $data;
+//               exit;
+//            }
             
             switch ($method)
             {
@@ -42,7 +50,10 @@ class Api extends CActiveRecord
                     }
                     break;
                 case "PUT":
-                    curl_setopt($curl, CURLOPT_PUT, 1);
+                    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
+                    if ($data){
+                        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                    }
                     break;
                 default:
                     if ($data){
@@ -50,7 +61,6 @@ class Api extends CActiveRecord
                     }
             }
 
-            //echo $url;exit;
             
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_HTTPHEADER, array(
@@ -61,6 +71,10 @@ class Api extends CActiveRecord
             $result = curl_exec($curl);
 
             curl_close($curl);
+            
+//            $response = json_decode($result, true);
+//            print_r($response);
+//            exit;
 
             return $result;
 	}
