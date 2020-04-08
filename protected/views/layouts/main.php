@@ -43,7 +43,30 @@
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed" onload=display_ct();>
-<?php //if (!Yii::app()->user->isGuest) {?>
+<?php   
+        $odp=0;
+        $pdp=0;
+        $selesai=0;
+        if(isset($_SESSION['role'])){
+            if($_SESSION['role']==1){//faskes
+               $result=Api::model()->callAPI("GET", "/getFaskesUser/".$_SESSION['user_id'], false);
+
+                $response = json_decode($result, true);
+                
+                if($response['code']==200){
+                    $areaCode=$response['data'][0]['areaCode'];
+                    
+                    $_SESSION['name']=$response['data'][0]['faskesName'];
+                    //echo $areaCode;
+                    //exit;
+                }else{
+                    
+                }
+            }else{
+                
+            }
+        }  
+?>
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -85,7 +108,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="<?php echo Yii::app()->theme->baseUrl; ?>/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="<?php echo Yii::app()->theme->baseUrl; ?>/dist/img/32689.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block"><?php echo $_SESSION['name']; ?></a>
@@ -140,7 +163,7 @@
               </p>
             </a>
           </li>
-          <?php if($_SESSION['role']==1){?>
+          <?php if($_SESSION['role']==2){?>
           <li class="nav-item">
             <a href="<?php echo Yii::app()->controller->createUrl('faskes/all')?>" class="<?php echo $class_menu_faskes; ?>">
               <i class="nav-icon far fa-plus-square"></i>
@@ -203,7 +226,7 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>53<sup style="font-size: 20px">orang</sup></h3>
+                <h3><?php echo $selesai;?><sup style="font-size: 20px">orang</sup></h3>
 
                 <p>Selesai Masa Karantina</p>
               </div>
@@ -218,7 +241,7 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>44<sup style="font-size: 20px">orang</sup></h3>
+                <h3><?php echo $odp;?><sup style="font-size: 20px">orang</sup></h3>
 
                 <p>Orang Dalam Pengawasan (ODP)</p>
               </div>
@@ -233,7 +256,7 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3>65<sup style="font-size: 20px">orang</sup></h3>
+                <h3><?php echo $pdp;?><sup style="font-size: 20px">orang</sup></h3>
 
                 <p>Pasien Dalam Pengawasan (PDP)</p>
               </div>

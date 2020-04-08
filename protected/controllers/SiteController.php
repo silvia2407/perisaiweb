@@ -71,7 +71,6 @@ class SiteController extends Controller
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
                 //echo $_SESSION['token'].' '.$_SESSION['role'].' '.$_SESSION['status_login']; 
-              
             $this->render('index');
 	}
 
@@ -135,7 +134,7 @@ class SiteController extends Controller
                         
                         $data=http_build_query($data_array);
                         
-                        $result=$this->callAPI("POST", "https://apiperisai.herokuapp.com/user/login", $data);
+                        $result=$this->callAPI("POST", "https://twitterjobvacancy.online/api_perisai/public/user/login", $data);
                         
                         $response = json_decode($result, true);
                         if($response['status']==200){
@@ -144,13 +143,17 @@ class SiteController extends Controller
                             $_SESSION['role']=$response['data']['user']['role'];
                             $_SESSION['user_id']=$response['data']['user']['id'];
                             $_SESSION['status_login']=1;
-                            if($_SESSION['role']==1){
+                            if($_SESSION['role']==2){
                                 $name="Dinkes";
-                            }else if($_SESSION['role']==2){
+                            }else if($_SESSION['role']==1){
                                 $name="Faskes";
                             }
                             $_SESSION['name']=$name;
                             $this->redirect(array("dashboard"));
+                        }else{
+                            //echo "gagal";
+                            //exit;
+                            Yii::app()->user->setFlash('success','Data berhasil disimpan');
                         }
                     }
                         

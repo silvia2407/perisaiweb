@@ -27,6 +27,13 @@
   <div class="card">
     <div class="card-body login-card-body">
       <p class="login-box-msg">Pelaporan Aktivitas Karantina Mandiri</p>
+      
+      <?php if(Yii::app()->user->hasFlash('success')): ?>
+        <div class="alert alert-warning">
+          <button type="button" class="close" data-dismiss="alert">×</button>
+          <strong>Gagal!</strong> username dan password tidak sesuai.
+        </div>
+      <?php endif; ?>
 
       <form action="<?php echo Yii::app()->controller->createUrl('login')?>" method="post">
         <div class="input-group mb-3">
