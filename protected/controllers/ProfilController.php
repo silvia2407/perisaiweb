@@ -30,7 +30,11 @@ class ProfilController extends Controller
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('index','view','password','test'),
                                 'expression'=>function($user){
+                                    if(isset($_SESSION['role']))
                                         return $_SESSION['role']<=2;
+                                    else {
+                                        return false;
+                                    }
                                 },
 			),
                         array('deny',  // deny all users
@@ -65,17 +69,17 @@ class ProfilController extends Controller
             $result=Api::model()->callAPI($_POST['type'], "/user/".$_SESSION['user_id'], $data);
 
             $response = json_decode($result, true);
-            if($response['status']==200){
-                echo $_POST['password'];
+            if($response['code']==200){
+                session_destroy();
+                echo json_encode("Password berhasil diupdate");
             }else{
-                //echo print_r($response);
-                echo 2;
+                echo json_encode("Password gagal diupdate");
             }
         }
         
         public function actionTest(){
             $data_array =  array(
-                "password"=> "ga"
+                "password"=> "gatot"
             );
 
             $data=http_build_query($data_array);
@@ -83,7 +87,7 @@ class ProfilController extends Controller
             $result=Api::model()->callAPI("PUT", "/user/".$_SESSION['user_id'], $data);
 
             $response = json_decode($result, true);
-            if($response['status']==200){
+            if($response['code']==200){
                 echo $_POST['password'];
             }else{
                 echo print_r($response);

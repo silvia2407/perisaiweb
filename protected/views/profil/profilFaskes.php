@@ -55,14 +55,14 @@
            </p>
 
            <hr>
-           <form role="form" onSubmit="return validasi()">
+           <form role="form" onsubmit="return validasi()">
                <div class="form-group">
                 <label for="exampleInputPassword1">Password</label>
                 <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
                </div>
 
                <div class="card-footer">
-                <button type="submit" class="btn btn-primary">Update Password</button>
+                <button type="submit" name="submit"class="btn btn-primary">Update Password</button>
                </div>
            </form>
            </div>
@@ -86,14 +86,21 @@
                                 "password":password,
                                 "type":"PUT"
                             },
-                            success: function(data, textStatus, jqXHR){
-                                alert(data);
-                                return true;
+                            beforeSend:function(){
+                                 //lakukan apasaja sambil menunggu proses selesai disini
+                                 //misal tampilkan loading
+
+                                 $(".loading").html("Please wait....");
+
+                            },
+                            success: function(data){
+                                alert(data+", silahkan melakukan login ulang");
+                                return false;
                             }
                         })
 		}else{
 			alert('Password harus di isi!');
-			return false;
+                        return false;
 		}
 	}
 
