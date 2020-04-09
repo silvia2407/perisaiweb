@@ -38,7 +38,11 @@
     var x = new Date().toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })
     document.getElementById('ct').innerHTML = x+ " WIB";
     display_c();
-     }
+    }
+
+    function deleteConfirmation() {
+      return confirm("Anda Yakin mau menghapus data ini ?");
+    }
    </script>
 
 </head>
@@ -57,6 +61,7 @@
                     $areaCode=$response['data'][0]['areaCode'];
                     
                     $_SESSION['name']=$response['data'][0]['faskesName'];
+                    $_SESSION['faskesId']=$response['data'][0]['faskesId'];
                     //echo $areaCode;
                     //exit;
                 }else{
@@ -174,7 +179,7 @@
           </li>
           <?php } ?>
           <li class="nav-item">
-            <a href="pages/calendar.html" class="<?php echo $class_menu_odp; ?>">
+            <a href="<?php echo Yii::app()->controller->createUrl('odp/index')?>" class="<?php echo $class_menu_odp; ?>">
               <i class="nav-icon fas fa-table"></i>
               <p>
                 ODP
