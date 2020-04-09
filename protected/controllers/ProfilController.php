@@ -52,7 +52,13 @@ class ProfilController extends Controller
                 $response = json_decode($result, true);
                 
                 if($response['code']==200){
-                    $this->render('profilFaskes', array('model'=>$response['data'][0]));
+                    $faskes=Api::model()->callAPI("GET", "/faskes/".$_SESSION['faskesId'], false);
+                    $faskes = json_decode($faskes, true);
+                    
+                    if($faskes['code']==200){
+                        $this->render('profilFaskes', array('model'=>$response['data'][0], 'faskes'=>$faskes["data"]));
+                    }
+                        
                 }
                 
             }

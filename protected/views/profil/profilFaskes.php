@@ -1,4 +1,4 @@
-<h1><?php echo $model['faskesName'];?></h1>
+<h1><?php echo $model['faskesName']; ?></h1>
 <div class="row">
     <div class="col-md-6">
         <div class="card card-primary">
@@ -24,7 +24,7 @@
            <strong><i class="fas fa-map-marker-alt mr-1"></i> Lokasi</strong>
 
            <p class="text-muted"><?php echo $model['KotaName'];?><br/>
-               Jln. Prof. A. Madjid Ibrahim</p>
+               <?php echo $faskes['faskesAddress'];?></p>
            	
 
 
@@ -33,7 +33,7 @@
            <strong><i class="fas fa-phone mr-1"></i> Telepon</strong>
 
            <p class="text-muted">
-             0641-22886
+             <?php echo $faskes['faskesPhone'];?>
            </p>
 
          </div>
