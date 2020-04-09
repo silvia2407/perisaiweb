@@ -28,6 +28,41 @@
   <!-- Google Font: Source Sans Pro -->
   <link href="<?php echo Yii::app()->theme->baseUrl; ?>/dist/css/font.css" rel="stylesheet">
   
+    <!-- jQuery -->
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+      $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- ChartJS -->
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/chart.js/Chart.min.js"></script>
+    <!-- Sparkline -->
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/sparklines/sparkline.js"></script>
+    <!-- JQVMap -->
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/jqvmap/jquery.vmap.min.js"></script>
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/jquery-knob/jquery.knob.min.js"></script>
+    <!-- daterangepicker -->
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/moment/moment.min.js"></script>
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Summernote -->
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/summernote/summernote-bs4.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/dist/js/adminlte.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/dist/js/pages/dashboard.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="<?php echo Yii::app()->theme->baseUrl; ?>/dist/js/demo.js"></script>
+  
   <script type="text/javascript"> 
     function display_c(){
     var refresh=1000; // Refresh rate in milli seconds
@@ -53,17 +88,34 @@
         $selesai=0;
         if(isset($_SESSION['role'])){
             if($_SESSION['role']==1){//faskes
-               $result=Api::model()->callAPI("GET", "/getFaskesUser/".$_SESSION['user_id'], false);
+                $result=Api::model()->callAPI("GET", "/getFaskesUser/".$_SESSION['user_id'], false);
 
                 $response = json_decode($result, true);
                 
                 if($response['code']==200){
-                    $areaCode=$response['data'][0]['areaCode'];
-                    
                     $_SESSION['name']=$response['data'][0]['faskesName'];
                     $_SESSION['faskesId']=$response['data'][0]['faskesId'];
-                    //echo $areaCode;
-                    //exit;
+                    $_SESSION['areaCode']=$response['data'][0]['areaCode'];
+                    
+                    $data_array =  array(
+                        "oriCity" =>$_SESSION['areaCode']
+                    );
+                    $total_person=Api::model()->callAPI("GET", "/getPersonStatus", json_encode($data_array));
+                    $total_person = json_decode($total_person, true);
+                    if($total_person['code']==200){
+                        $odp=$total_person['data']['jumlah_odp'];
+                        $_SESSION['odp']=$odp;
+                        $pdp=$total_person['data']['jumlah_pdp'];
+                        $_SESSION['pdp']=$pdp;
+                        $selesai=$total_person['data']['jumlah_selesai'];
+                        $_SESSION['selesai']=$selesai;
+                        $otg=$total_person['data']['jumlah_otg'];
+                        $_SESSION['otg']=$otg;
+                        $positif=$total_person['data']['jumlah_positive'];
+                        $_SESSION['positif']=$positif;
+                        $karantina=$total_person['data']['jumlah_karantina'];
+                        $_SESSION['karantina']=$karantina;
+                    }
                 }else{
                     
                 }
@@ -253,7 +305,7 @@
               <div class="icon">
                 <i class="ion ion-person-add"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="<?php echo Yii::app()->controller->createUrl('odp/index')?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -293,40 +345,7 @@
   </aside>
 </div>
 
-<!-- jQuery -->
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/jquery/jquery.min.js"></script>
-<!-- jQuery UI 1.11.4 -->
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/jquery-ui/jquery-ui.min.js"></script>
-<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
-<!-- Bootstrap 4 -->
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- ChartJS -->
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/chart.js/Chart.min.js"></script>
-<!-- Sparkline -->
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/sparklines/sparkline.js"></script>
-<!-- JQVMap -->
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/jqvmap/jquery.vmap.min.js"></script>
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-<!-- jQuery Knob Chart -->
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/jquery-knob/jquery.knob.min.js"></script>
-<!-- daterangepicker -->
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/moment/moment.min.js"></script>
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/daterangepicker/daterangepicker.js"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-<!-- Summernote -->
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/summernote/summernote-bs4.min.js"></script>
-<!-- overlayScrollbars -->
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-<!-- AdminLTE App -->
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/dist/js/adminlte.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/dist/js/pages/dashboard.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="<?php echo Yii::app()->theme->baseUrl; ?>/dist/js/demo.js"></script>
+
 <?php //} ?>
 </body>
 </html>

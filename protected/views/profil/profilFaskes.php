@@ -1,4 +1,4 @@
-<h1><?php echo $model['faskesName']; ?></h1>
+<h1><?php echo $model['faskesName']; /*echo $_SESSION['faskesId'];*/?></h1>
 <div class="row">
     <div class="col-md-6">
         <div class="card card-primary">
