@@ -35,6 +35,8 @@
            <p class="text-muted">
              <?php echo $faskes['faskesPhone'];?>
            </p>
+           
+           <a href="<?php echo Yii::app()->controller->createUrl('update')?>" class="btn btn-primary btn-block"><b>Edit</b></a>
 
          </div>
          <!-- /.card-body -->

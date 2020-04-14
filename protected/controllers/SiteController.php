@@ -81,10 +81,11 @@ class SiteController extends Controller
                     $_SESSION['areaCode']=$response['data'][0]['areaCode'];
                     
                     $data_array =  array(
-                        "oriCity" =>$_SESSION['areaCode']
+                        "faskesId" =>$_SESSION['faskesId']
                     );
-                    $total_person=Api::model()->callAPI("GET", "/getPersonStatus", json_encode($data_array));
+                    $total_person=Api::model()->callAPI("GET", "/getPersonStatusFaskes/".$_SESSION['faskesId'], false);
                     $total_person = json_decode($total_person, true);
+                    
                     if($total_person['code']==200){
                         $_SESSION['odp']=$total_person['data']['jumlah_odp'];
                         $_SESSION['pdp']=$total_person['data']['jumlah_pdp'];

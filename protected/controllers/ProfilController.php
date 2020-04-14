@@ -28,7 +28,7 @@ class ProfilController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','view','password','test'),
+				'actions'=>array('index','view','password','test','update'),
                                 'expression'=>function($user){
                                     if(isset($_SESSION['role']))
                                         return $_SESSION['role']<=2;
@@ -82,6 +82,7 @@ class ProfilController extends Controller
                 echo json_encode("Password gagal diupdate");
             }
         }
+        
         
         public function actionTest(){
             $data_array =  array(
@@ -140,26 +141,76 @@ class ProfilController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdate($id)
+	public function actionUpdate()
 	{
-		$model=$this->loadModel($id);
+//		$model=$this->loadModel($id);
+//
+//		if(isset($_POST['Sie']))
+//		{
+//			$model->attributes=$_POST['Sie'];
+//			if($model->save())
+//			{
+//                                Yii::app()->user->setFlash('success','Data berhasil disimpan');
+//				$this->redirect(array('admin'));
+//                        }
+//		}
+//
+//		$this->render('update',array(
+//			'model'=>$model,
+//		));
+                if($_SESSION['role']==2){
+                    
+                }else{
+                    $result=Api::model()->callAPI("GET", "/getFaskesUser/".$_SESSION['user_id'], false);
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+                    $response = json_decode($result, true);
 
-		if(isset($_POST['Sie']))
-		{
-			$model->attributes=$_POST['Sie'];
-			if($model->save())
-			{
-                                Yii::app()->user->setFlash('success','Data berhasil disimpan');
-				$this->redirect(array('admin'));
+                    if($response['code']==200){
+                        $faskes=Api::model()->callAPI("GET", "/faskes/".$_SESSION['faskesId'], false);
+                        $faskes = json_decode($faskes, true);
+
+                        if($faskes['code']==200){
+                            if(isset($_POST['flag'])){
+                                if(isset($_POST['email'])){
+                                    $email=$_POST['email'];
+                                    
+                                    $data_array =  array(
+                                        "email" =>$email
+                                    );
+
+                                    $data=http_build_query($data_array);
+
+                                    $result=Api::model()->callAPI("PUT", "/user/".$_SESSION['user_id'], $data);
+                                }
+                                
+                                if(isset($_POST['lokasi']))
+                                    $lokasi=$_POST['lokasi'];
+                                else
+                                    $lokasi=$faskes['faskesAddress'];
+                                
+                                if(isset($_POST['telepon']))
+                                    $telepon=$_POST['telepon'];
+                                else
+                                    $telepon=$faskes['faskesPhone'];
+                                
+                                if(isset($lokasi) || isset($telepon)){
+                                    $data_array =  array(
+                                        "faskesPhone" =>$telepon,
+                                        "faskesAddress"=> $lokasi
+                                    );
+
+                                    $data=http_build_query($data_array);
+
+                                    $result=Api::model()->callAPI("PUT", "/faskes/".$_SESSION['faskesId'], $data);
+                                }
+                                $this->redirect(array("index"));
+                            }
+                            $this->render('updateFaskes', array('model'=>$response['data'][0], 'faskes'=>$faskes["data"]));
                         }
-		}
 
-		$this->render('update',array(
-			'model'=>$model,
-		));
+                    }
+                }
+                
 	}
 
 	/**

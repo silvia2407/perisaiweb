@@ -30,15 +30,8 @@ class Api extends CActiveRecord
 	{
             $curl = curl_init();
             $baseUrl="https://twitterjobvacancy.online/api_perisai/public";
+            //$url2=$url;
             $url=$baseUrl.$url;
-//            
-//            if($data==false){
-//               echo "fas";
-//               exit; 
-//            }else{
-//                echo $data;
-//               exit;
-//            }
             
             switch ($method)
             {
@@ -60,7 +53,12 @@ class Api extends CActiveRecord
                         $url = sprintf("%s?%", $url, $data);
                     }
             }
-
+            
+            /*if($url2=="/getPersonStatusFaskes"){
+                echo $url;
+            exit;
+            }*/
+            
             
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_HTTPHEADER, array(
