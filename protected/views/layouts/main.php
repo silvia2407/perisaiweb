@@ -82,48 +82,7 @@
 
 </head>
 <body class="hold-transition sidebar-mini layout-fixed" onload=display_ct();>
-<?php   
-        $odp=0;
-        $pdp=0;
-        $selesai=0;
-        if(isset($_SESSION['role'])){
-            if($_SESSION['role']==1){//faskes
-                $result=Api::model()->callAPI("GET", "/getFaskesUser/".$_SESSION['user_id'], false);
 
-                $response = json_decode($result, true);
-                
-                if($response['code']==200){
-                    $_SESSION['name']=$response['data'][0]['faskesName'];
-                    $_SESSION['faskesId']=$response['data'][0]['faskesId'];
-                    $_SESSION['areaCode']=$response['data'][0]['areaCode'];
-                    
-                    $data_array =  array(
-                        "oriCity" =>$_SESSION['areaCode']
-                    );
-                    $total_person=Api::model()->callAPI("GET", "/getPersonStatus", json_encode($data_array));
-                    $total_person = json_decode($total_person, true);
-                    if($total_person['code']==200){
-                        $odp=$total_person['data']['jumlah_odp'];
-                        $_SESSION['odp']=$odp;
-                        $pdp=$total_person['data']['jumlah_pdp'];
-                        $_SESSION['pdp']=$pdp;
-                        $selesai=$total_person['data']['jumlah_selesai'];
-                        $_SESSION['selesai']=$selesai;
-                        $otg=$total_person['data']['jumlah_otg'];
-                        $_SESSION['otg']=$otg;
-                        $positif=$total_person['data']['jumlah_positive'];
-                        $_SESSION['positif']=$positif;
-                        $karantina=$total_person['data']['jumlah_karantina'];
-                        $_SESSION['karantina']=$karantina;
-                    }
-                }else{
-                    
-                }
-            }else{
-                
-            }
-        }  
-?>
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -283,7 +242,7 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3><?php echo $selesai;?><sup style="font-size: 20px">orang</sup></h3>
+                <h3><?php echo $_SESSION['selesai'];?><sup style="font-size: 20px">orang</sup></h3>
 
                 <p>Selesai Masa Karantina</p>
               </div>
@@ -298,7 +257,7 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3><?php echo $odp;?><sup style="font-size: 20px">orang</sup></h3>
+                <h3><?php echo $_SESSION['odp'];?><sup style="font-size: 20px">orang</sup></h3>
 
                 <p>Orang Dalam Pengawasan (ODP)</p>
               </div>
@@ -313,7 +272,7 @@
             <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
-                <h3><?php echo $pdp;?><sup style="font-size: 20px">orang</sup></h3>
+                <h3><?php echo $_SESSION['pdp'];?><sup style="font-size: 20px">orang</sup></h3>
 
                 <p>Pasien Dalam Pengawasan (PDP)</p>
               </div>
