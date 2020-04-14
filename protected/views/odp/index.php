@@ -5,7 +5,8 @@
 			<h3 class="box-title">
                 <i class="fa fa-fw fa-table"></i> 
                 Daftar Orang Dalam Pengawasan
-            </h3>								
+            </h3>
+            
         </div>
         <?php if(!is_array($data_odp)) { ?>
         <div class="box box-warning">
@@ -26,7 +27,8 @@
                     <th>Kebangsaan</th>
                     <th>Status</th>
                     <th>Diagnosa</th>
-					<th>Aksi</th>
+                    <th>Info Travel</th>
+					<th>Ubah Status</th>
                 </tr>
                 </thead>                                    
                 <?php 
@@ -45,13 +47,13 @@
                         <td width="10%"><a href="<?php echo Yii::app()->controller->createUrl('odp/diagnosa',array('id'=>$row['personId']));?>">
                              <i class="fa fa-fw fa-stethoscope"></i>
                             </a></td>
-						<td width="10%"><a href="<?php echo Yii::app()->controller->createUrl('odp/update',array('id'=>$row['personId']));?>">
+                        <td width="10%"><a href="<?php echo Yii::app()->controller->createUrl('odp/travel',array('id'=>$row['personId']));?>">
+                             <i class="fa fa-fw fa-map-pin"></i>
+                            </a></td>
+						<td width="10%"><a href='#myModal' class='btn btn-default btn-small' id='custId' data-toggle='modal' data-id="1">
                              <i class="fa fa-fw fa-edit"></i>
                             </a>
-                            <a href="<?php echo Yii::app()->controller->createUrl('odp/delete',array('id'=>$row['personId']));?>" onclick="return deleteConfirmation();">
-                             <i class="fa fa-fw fa-trash"></i>
                         </td>
-                        
                     </tr> 
                     </tbody>                                      
                 <?php $counter++; } ?>
@@ -59,4 +61,20 @@
         </div>
         <?php }?>                                 
     </div><!-- /.box -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Detail Barang</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="fetched-data"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>

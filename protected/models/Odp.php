@@ -82,6 +82,25 @@ class Odp extends CActiveRecord
 		return $data;
 	}
 
+	//Fungsi Get Travel By Person ID
+	public function getTravelById($personId)
+	{
+        $result=Api::model()->callAPI("GET", "/getPersonTravel/".$personId, false);
+
+        $response = json_decode($result, true);
+        
+        if(is_array($response)){
+        	if($response['code']==200){
+	            $data=$response['data'];
+			}
+        }
+    	else{
+            $data = "tidak ada data";
+        }
+    
+		return $data;
+	}
+
 	//Fungsi Get Nama By Person ID
 	public function getNameById($personId)
 	{
@@ -115,22 +134,22 @@ class Odp extends CActiveRecord
 	            switch ($statusId)
 		        {
 		            case "1":
-		                $data = "<span class=\"badge bg-warning\">".$statusDesc."</span";
+		                $data = "<span class=\"badge bg-warning\">".$statusDesc."</span>";
 		                break;
 		            case "2":
-		                $data = "<span class=\"badge bg-warning\">".$statusDesc."</span";
+		                $data = "<span class=\"badge bg-warning\">".$statusDesc."</span>";
 		                break;
 		            case "3":
-		                $data = "<span class=\"badge bg-danger\">".$statusDesc."</span";
+		                $data = "<span class=\"badge bg-danger\">".$statusDesc."</span>";
 		                break;
 		            case "4":
-		                $data = "<span class=\"badge bg-danger\">".$statusDesc."</span";
+		                $data = "<span class=\"badge bg-danger\">".$statusDesc."</span>";
 		                break;
 		            case "5":
-		                $data = "<span class=\"badge bg-success\">".$statusDesc."</span";
+		                $data = "<span class=\"badge bg-success\">".$statusDesc."</span>";
 		                break;
 		            case "6":
-		                $data = "<span class=\"badge bg-danger\">".$statusDesc."</span";
+		                $data = "<span class=\"badge bg-danger\">".$statusDesc."</span>";
 		                break;
 		            default:
 		                $data = $statusDesc;

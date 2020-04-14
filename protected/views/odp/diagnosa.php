@@ -32,97 +32,107 @@
                     <tr>
                     <td>Demam</td>
                     <?php 
-                        
                         foreach ($diagnosa as $row) { ?>  
-                        <td><?php echo $row['demam'];?></td>
+                        <td><?php 
+                            echo ($row['demam']==1) ? "<span class=\"badge bg-danger\">Ya</span>" : "<span class=\"badge bg-success\">Tidak</span>";?></td>
                     <?php } ?>
                     </tr>
                     <tr>
-                    <td>Batuk Pilek</td>
+                    <td>Batuk/Pilek</td>
                     <?php 
-                        
                         foreach ($diagnosa as $row) { ?>  
-                        <td><?php echo $row['batukPilek'];?></td>
+                        <td><?php 
+                            echo ($row['batukPilek']==1) ? "<span class=\"badge bg-danger\">Ya</span>" : "<span class=\"badge bg-success\">Tidak</span>";?></td>
                     <?php } ?>
                     </tr>
                     <tr>
-                    <td>Sesak Napas</td>
+                    <td>Sesak napas</td>
                     <?php 
-                        
                         foreach ($diagnosa as $row) { ?>  
-                        <td><?php echo $row['sesakNapas'];?></td>
+                        <td><?php 
+                            echo ($row['sesakNapas']==1) ? "<span class=\"badge bg-danger\">Ya</span>" : "<span class=\"badge bg-success\">Tidak</span>";?></td>
                     <?php } ?>
                     </tr>
                     <tr>
-                    <td>Badan Lemas</td>
+                    <td>Badan lemas</td>
                     <?php 
-                        
                         foreach ($diagnosa as $row) { ?>  
-                        <td><?php echo $row['badanLemas'];?></td>
+                        <td>
+                            <?php 
+                            echo ($row['badanLemas']==1) ? "<span class=\"badge bg-danger\">Ya</span>" : "<span class=\"badge bg-success\">Tidak</span>";?></td>
                     <?php } ?>
                     </tr>
                     <tr>
                     <td>Diare</td>
                     <?php 
-                        
                         foreach ($diagnosa as $row) { ?>  
-                        <td><?php echo $row['diare'];?></td>
+                        <td><?php 
+                            echo ($row['diare']==1) ? "<span class=\"badge bg-danger\">Ya</span>" : "<span class=\"badge bg-success\">Tidak</span>";?>
+                            </td>
                     <?php } ?>
                     </tr>
                     <tr>
-                    <td>Kejag</td>
+                    <td>Kejang</td>
                     <?php 
-                        
                         foreach ($diagnosa as $row) { ?>  
-                        <td><?php echo $row['kejang'];?></td>
+                        <td><?php 
+                            echo ($row['kejang']==1) ? "<span class=\"badge bg-danger\">Ya</span>" : "<span class=\"badge bg-success\">Tidak</span>";?>
+                            </td>
                     <?php } ?>
                     </tr>
                     <tr>
-                    <td>Kaku Kuduk</td>
+                    <td>Kaku kuduk</td>
                     <?php 
                         
                         foreach ($diagnosa as $row) { ?>  
-                        <td><?php echo $row['kakuKuduk'];?></td>
+                        <td><?php 
+                            echo ($row['kakuKuduk']==1) ? "<span class=\"badge bg-danger\">Ya</span>" : "<span class=\"badge bg-success\">Tidak</span>";?>
+                            </td>
                     <?php } ?>
                     </tr>
                     <tr>
-                    <td>Mata Merah</td>
+                    <td>Mata merah</td>
                     <?php 
                         
                         foreach ($diagnosa as $row) { ?>  
-                        <td><?php echo $row['mataMerah'];?></td>
+                        <td><?php 
+                            echo ($row['mataMerah']==1) ? "<span class=\"badge bg-danger\">Ya</span>" : "<span class=\"badge bg-success\">Tidak</span>";?>
+                            </td>
                     <?php } ?>
                     </tr>
                     <tr>
-                    <td>Mata Kuning</td>
+                    <td>Mata Menguning</td>
                     <?php 
-                        
                         foreach ($diagnosa as $row) { ?>  
-                        <td><?php echo $row['mataKuning'];?></td>
+                        <td><?php 
+                            echo ($row['mataKuning']==1) ? "<span class=\"badge bg-danger\">Ya</span>" : "<span class=\"badge bg-success\">Tidak</span>";?>
+                            </td>
                     <?php } ?>
                     </tr>
                     <tr>
                     <td>Kulit Ruam</td>
                     <?php 
-                        
                         foreach ($diagnosa as $row) { ?>  
-                        <td><?php echo $row['kulitRuam'];?></td>
+                        <td><?php 
+                            echo ($row['kulitRuam']==1) ? "<span class=\"badge bg-danger\">Ya</span>" : "<span class=\"badge bg-success\">Tidak</span>";?>
+                        </td>
                     <?php } ?>
                     </tr>
                     <tr>
-                    <td>Lainnya</td>
+                    <td>Gejala Lainnya</td>
                     <?php 
-                        
                         foreach ($diagnosa as $row) { ?>  
-                        <td><?php echo $row['lainnyaDesc'];?></td>
+                        <td><?php 
+                            echo ($row['lainnya']==1) ? "<span class=\"badge bg-danger\">".$row['lainnyaDesc']."</span>" : "<span class=\"badge bg-success\">Tidak Ada</span>";?>
+                            </td>
                     <?php } ?>
                     </tr>
                     <tr>
-                    <td>Diagnosa Status</td>
+                    <td>Ada Indikasi Terinfeksi Covid19</td>
                     <?php 
-                        
                         foreach ($diagnosa as $row) { ?>  
-                        <td><?php echo $row['diagStatus'];?></td>
+                        <td><?php 
+                            echo ($row['diagStatus']==1) ? "<span class=\"badge bg-danger\">Ya</span>" : "<span class=\"badge bg-success\">Tidak</span>";?></td>
                     <?php } ?>
                     </tr>
                 </tbody>                                      

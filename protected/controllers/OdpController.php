@@ -28,7 +28,7 @@ class OdpController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','detail','diagnosa','update','delete'),
+				'actions'=>array('index','detail','diagnosa','update','travel'),
                                 'expression'=>function($user){
                                         return $_SESSION['role']<=1;
                                 },
@@ -84,6 +84,23 @@ class OdpController extends Controller
 
 		$this->render('diagnosa',$data_view);
 	}
+
+	/**
+	 * Displays a particular model.
+	 * @param integer $id the ID of the model to be displayed
+	 */
+	public function actionTravel($id)
+	{
+		$travel=Odp::model()->getTravelById($id);
+		$nama = Odp::model()->getNameById($id);
+
+		$data_view = array(
+			"travel" => $travel,
+			"nama" => $nama,
+			);
+
+		$this->render('travel',$data_view);
+	}
     
     /**
 	 * Displays a particular model.
@@ -101,24 +118,7 @@ class OdpController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Sie;
-
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['Sie']))
-		{
-			$model->attributes=$_POST['Sie'];
-			if($model->save())
-			{
-                                Yii::app()->user->setFlash('success','Data berhasil disimpan');
-				$this->redirect(array('create'));
-                        }
-		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
+		$this->render('create');
 	}
 
 	/**

@@ -32,7 +32,7 @@
             ],
             datasets: [
               {
-                data: [<?php echo json_encode($_SESSION['odp']);?>,<?php echo json_encode($_SESSION['otg']);?>,<?php echo json_encode($_SESSION['pdp']);?>,<?php echo json_encode($_SESSION['positif']);?>,<?php echo json_encode($_SESSION['karantina']);?>,<?php echo json_encode($_SESSION['selesai']);?>],
+                data: [<?php//echo json_encode($_SESSION['odp']);?>,<?php //echo json_encode($_SESSION['otg']);?>,<?php //echo json_encode($_SESSION['pdp']);?>,<?php //echo json_encode($_SESSION['positif']);?>,<?php //echo json_encode($_SESSION['karantina']);?>,<?php //echo json_encode($_SESSION['selesai']);?>],
                 backgroundColor : ['#ffcc00', '#3c8dbc', '#cc0000', '#f56954', '#e6e600', '#00a65a'],
                 //backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
               }
