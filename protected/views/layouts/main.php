@@ -180,13 +180,30 @@
             </a>
           </li>
           <?php if($_SESSION['role']==2){?>
-          <li class="nav-item">
-            <a href="<?php echo Yii::app()->controller->createUrl('faskes/all')?>" class="<?php echo $class_menu_faskes; ?>">
-              <i class="nav-icon far fa-plus-square"></i>
+          <li class="nav-item has-treeview">
+            <a href="#" class="<?php echo $class_menu_faskes; ?>">
+              <i class="nav-icon fas fa-copy"></i>
               <p>
                 Faskes
+                <i class="fas fa-angle-left right"></i>
               </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="<?php echo Yii::app()->controller->createUrl('faskes/index')?>" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Daftar Faskes</p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="<?php echo Yii::app()->controller->createUrl('faskes/add')?>" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Tambah Faskes</p>
+                </a>
+              </li>
+            </ul>
           </li>
           <?php } ?>
           <li class="nav-item">
