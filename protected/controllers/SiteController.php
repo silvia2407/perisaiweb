@@ -70,36 +70,34 @@ class SiteController extends Controller
 	{
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
-            if($_SESSION['role']==1){//faskes
-                $result=Api::model()->callAPI("GET", "/getFaskesUser/".$_SESSION['user_id'], false);
-
-                $response = json_decode($result, true);
-                
-                if($response['code']==200){
-                    $_SESSION['name']=$response['data'][0]['faskesName'];
-                    $_SESSION['faskesId']=$response['data'][0]['faskesId'];
-                    $_SESSION['areaCode']=$response['data'][0]['areaCode'];
-                    
-                    $data_array =  array(
-                        "faskesId" =>$_SESSION['faskesId']
-                    );
-                    $total_person=Api::model()->callAPI("GET", "/getPersonStatusFaskes/".$_SESSION['faskesId'], false);
-                    $total_person = json_decode($total_person, true);
-                    
-                    if($total_person['code']==200){
-                        $_SESSION['odp']=$total_person['data']['jumlah_odp'];
-                        $_SESSION['pdp']=$total_person['data']['jumlah_pdp'];
-                        $_SESSION['selesai']=$total_person['data']['jumlah_selesai'];
-                        $_SESSION['otg']=$total_person['data']['jumlah_otg'];
-                        $_SESSION['positif']=$total_person['data']['jumlah_positive'];
-                        $_SESSION['karantina']=$total_person['data']['jumlah_karantina'];
-                    }
-                }else{
-                    
-                }
-            }else{
-                
-            }
+//            if($_SESSION['role']==1){//faskes
+//                $result=Api::model()->callAPI("GET", "/getFaskesUser/".$_SESSION['user_id'], false);
+//
+//                $response = json_decode($result, true);
+//                
+//                if($response['code']==200){
+//                    $_SESSION['name']=$response['data'][0]['faskesName'];
+//                    $_SESSION['faskesId']=$response['data'][0]['faskesId'];
+//                    $_SESSION['areaCode']=$response['data'][0]['areaCode'];
+//                    
+//                    $data_array =  array(
+//                        "faskesId" =>$_SESSION['faskesId']
+//                    );
+//                    $total_person=Api::model()->callAPI("GET", "/getPersonStatusFaskes/".$_SESSION['faskesId'], false);
+//                    $total_person = json_decode($total_person, true);
+//                    
+//                    if($total_person['code']==200){
+//                        $_SESSION['odp']=$total_person['data']['jumlah_odp'];
+//                        $_SESSION['pdp']=$total_person['data']['jumlah_pdp'];
+//                        $_SESSION['selesai']=$total_person['data']['jumlah_selesai'];
+//                        $_SESSION['otg']=$total_person['data']['jumlah_otg'];
+//                        $_SESSION['positif']=$total_person['data']['jumlah_positive'];
+//                        $_SESSION['karantina']=$total_person['data']['jumlah_karantina'];
+//                    }
+//                }
+//            }else{
+//                
+//            }
             $this->render('index');
 	}
 
@@ -173,11 +171,48 @@ class SiteController extends Controller
                             $_SESSION['user_id']=$response['data']['user']['id'];
                             $_SESSION['status_login']=1;
                             if($_SESSION['role']==2){
-                                $name="Dinkes";
+                                $result=Api::model()->callAPI("GET", "/getDinkesUser/".$_SESSION['user_id'], false);
+
+                                $response = json_decode($result, true);
+
+                                if($response['code']==200){
+                                    $_SESSION['name']="DINKES <br/>".$response['data'][0]['KotaName'];
+                                    $_SESSION['dinkesId']=$response['data'][0]['dinkesId'];
+                                    $_SESSION['areaCode']=$response['data'][0]['areaCode'];
+                                    
+                                    $_SESSION['odp']=0;
+                                        $_SESSION['pdp']=0;
+                                        $_SESSION['selesai']=0;
+                                        $_SESSION['otg']=0;
+                                        $_SESSION['positif']=0;
+                                        $_SESSION['karantina']=0;
+                                }
                             }else if($_SESSION['role']==1){
-                                $name="Faskes";
+                                $result=Api::model()->callAPI("GET", "/getFaskesUser/".$_SESSION['user_id'], false);
+
+                                $response = json_decode($result, true);
+
+                                if($response['code']==200){
+                                    $_SESSION['name']=$response['data'][0]['faskesName'];
+                                    $_SESSION['faskesId']=$response['data'][0]['faskesId'];
+                                    $_SESSION['areaCode']=$response['data'][0]['areaCode'];
+
+                                    $data_array =  array(
+                                        "faskesId" =>$_SESSION['faskesId']
+                                    );
+                                    $total_person=Api::model()->callAPI("GET", "/getPersonStatusFaskes/".$_SESSION['faskesId'], false);
+                                    $total_person = json_decode($total_person, true);
+
+                                    if($total_person['code']==200){
+                                        $_SESSION['odp']=$total_person['data']['jumlah_odp'];
+                                        $_SESSION['pdp']=$total_person['data']['jumlah_pdp'];
+                                        $_SESSION['selesai']=$total_person['data']['jumlah_selesai'];
+                                        $_SESSION['otg']=$total_person['data']['jumlah_otg'];
+                                        $_SESSION['positif']=$total_person['data']['jumlah_positive'];
+                                        $_SESSION['karantina']=$total_person['data']['jumlah_karantina'];
+                                    }
+                                }
                             }
-                            $_SESSION['name']=$name;
                             $this->redirect(array("dashboard"));
                         }else{
                             //echo "gagal";

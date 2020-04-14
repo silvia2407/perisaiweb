@@ -12,11 +12,11 @@
       </div>
       <div class="form-group">
         <label for="lokasi">Lokasi</label>
-        <input type="text" name="lokasi" class="form-control" id="lokasi" value="<?php echo $faskes['faskesAddress'];?>">
+        <input type="text" name="lokasi" class="form-control" id="lokasi" value="<?php echo $faskes['dinkesAddress'];?>">
       </div>
       <div class="form-group">
         <label for="telepon">Telepon</label>
-        <input type="text" name="telepon" class="form-control" id="telepon" value="<?php echo $faskes['faskesPhone'];?>">
+        <input type="text" name="telepon" class="form-control" id="telepon" value="<?php echo $faskes['dinkesPhone'];?>">
       </div>
       <div style="display: none" class="form-group">
         <input type="text" name="flag" class="form-control" id="flag" value="1">

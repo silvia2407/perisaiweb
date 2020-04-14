@@ -45,7 +45,19 @@ class ProfilController extends Controller
 
 	public function actionIndex(){
             if($_SESSION['role']==2){
-                $this->render('profilDinkes');
+                $result=Api::model()->callAPI("GET", "/getDinkesUser/".$_SESSION['user_id'], false);
+
+                $response = json_decode($result, true);
+                
+                if($response['code']==200){
+                    $faskes=Api::model()->callAPI("GET", "/dinkes/".$_SESSION['dinkesId'], false);
+                    $faskes = json_decode($faskes, true);
+                    
+                    if($faskes['code']==200){
+                        $this->render('profilDinkes', array('model'=>$response['data'][0], 'faskes'=>$faskes["data"]));
+                    }
+                        
+                }
             }else if($_SESSION['role']==1){
                 $result=Api::model()->callAPI("GET", "/getFaskesUser/".$_SESSION['user_id'], false);
 
@@ -143,22 +155,44 @@ class ProfilController extends Controller
 	 */
 	public function actionUpdate()
 	{
-//		$model=$this->loadModel($id);
-//
-//		if(isset($_POST['Sie']))
-//		{
-//			$model->attributes=$_POST['Sie'];
-//			if($model->save())
-//			{
-//                                Yii::app()->user->setFlash('success','Data berhasil disimpan');
-//				$this->redirect(array('admin'));
-//                        }
-//		}
-//
-//		$this->render('update',array(
-//			'model'=>$model,
-//		));
                 if($_SESSION['role']==2){
+                    $result=Api::model()->callAPI("GET", "/getDinkesUser/".$_SESSION['user_id'], false);
+
+                    $response = json_decode($result, true);
+
+                    if($response['code']==200){
+                        $faskes=Api::model()->callAPI("GET", "/dinkes/".$_SESSION['dinkesId'], false);
+                        $faskes = json_decode($faskes, true);
+
+                        if($faskes['code']==200){
+                            if(isset($_POST['flag'])){
+                               if(isset($_POST['email'])){
+                                    $data_array =  array(
+                                        "email" =>$_POST['email']
+                                    );
+
+                                    $data=http_build_query($data_array);
+
+                                    $result=Api::model()->callAPI("PUT", "/user/".$_SESSION['user_id'], $data);
+
+                                } 
+                                
+                                if(isset($_POST['lokasi']) || isset($_POST['telepon'])){
+                                   $data_array =  array(
+                                        "dinkesPhone" =>$_POST['telepon'],
+                                        "dinkesAddress"=> $_POST['lokasi']
+                                    );
+
+                                    $data=http_build_query($data_array);
+
+                                    $result=Api::model()->callAPI("PUT", "/dinkes/".$_SESSION['dinkesId'], $data);
+                                }
+                                $this->redirect(array("index"));
+                            }
+                            $this->render('updateDinkes', array('model'=>$response['data'][0], 'faskes'=>$faskes["data"]));
+                        }
+
+                    }
                     
                 }else{
                     $result=Api::model()->callAPI("GET", "/getFaskesUser/".$_SESSION['user_id'], false);
