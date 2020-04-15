@@ -30,7 +30,7 @@ class OdpController extends Controller
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
 				'actions'=>array('index','detail','diagnosa','update','travel'),
                                 'expression'=>function($user){
-                                        return $_SESSION['role']<=1;
+                                        return $_SESSION['role']<=2;
                                 },
 			),
                 array('deny',  // deny all users

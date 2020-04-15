@@ -27,6 +27,7 @@
                     <th>Alamat</th>
                     <th>Telepon</th>
                     <th>Location (lat,long)</th>
+                    <th>Akun</th>
                 </tr>
                 </thead>                                    
                 <?php 
@@ -44,6 +45,19 @@
                         <td width="30%"><?php echo $row['faskesAddress']; ?></td>
                         <td width="12%"><?php echo $row['faskesPhone']; ?></td>
                         <td width="18%"><?php echo $row['latitude'].', '.$row['longitude']; ?></td>
+                        <td width="10%">
+                            <?php if(isset($row['userId'])){ ?>
+                            <a class="btn btn-info btn-sm" href="#">
+                                <i class="fas fa-check">
+                                </i>
+                            </a>
+                            <?php } else{ ?>
+                            <a class="btn btn-danger btn-sm" href="<?php echo Yii::app()->controller->createUrl('faskes/akun',array('id'=>$row['faskesId']));?>">
+                                <i class="fas fa-pencil-alt">
+                                </i>
+                            </a>
+                            <?php } ?>
+                        </td>
                     </tr> 
                     </tbody>                                      
                 <?php $counter++; } ?>

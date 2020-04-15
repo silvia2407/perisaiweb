@@ -25,7 +25,7 @@ class Faskes extends CActiveRecord
 	}
 
 	
-    //Faskes by area
+        //Faskes by area
 	public function getFaskesArea($areaCode)
 	{
             $result=Api::model()->callAPI("GET", "/getFaskesArea/".$areaCode, false);
@@ -42,6 +42,41 @@ class Faskes extends CActiveRecord
             }
 
                     return $data;
+	}
+        
+        //Faskes by id
+	public function getFaskes($id)
+	{
+            $result=Api::model()->callAPI("GET", "/faskes/".$id, false);
+
+            $response = json_decode($result, true);
+
+            if(is_array($response)){
+                    if($response['code']==200){
+                        $data=$response['data'];
+                    }
+            }
+            else{
+                $data = "tidak ada data";
+            }
+
+                    return $data;
+	}
+        
+        //update
+	public function updateFaskes($id, $userId)
+	{
+            $data_array =  array(
+                "userId" =>$userId
+            );
+
+            $data=http_build_query($data_array);
+
+            $result=Api::model()->callAPI("PUT", "/faskes/".$id, $data);
+
+            $response = json_decode($result, true);
+
+            return $response;
 	}
 
 }

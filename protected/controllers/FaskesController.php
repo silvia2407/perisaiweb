@@ -28,7 +28,7 @@ class FaskesController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','add'),
+				'actions'=>array('index','add','akun'),
                                 'expression'=>function($user){
                                         return $_SESSION['role']==2;
                                 },
@@ -52,7 +52,77 @@ class FaskesController extends Controller
         
         public function actionAdd(){
             
+            if(isset($_POST['flag'])){
+                if($_POST['tipe']=="" && $_POST['nama']=="" && $_POST['alamat']=="" && $_POST['telepon']=="" && $_POST['code']=="")
+                {
+                    Yii::app()->user->setFlash('success','Semua field harus diisi');
+                }else{
+                    $data_array =  array(
+                        "faskesType" =>$_POST['tipe'],
+                        "faskesName" =>$_POST['nama'],
+                        "role" =>1,
+                        "faskesAddress" =>$_POST['alamat'],
+                        "areaCode" =>$_SESSION['areaCode'],
+                        "faskesCode" =>$_POST['code'],
+                        "latitude" =>0,
+                        "longitude" =>0,
+                        "faskesPhone"=>$_POST['telepon']
+                    );
+
+                    $data=http_build_query($data_array);
+                    $add_faskes=Api::model()->callAPI("POST", "/faskes", $data);
+                    
+                    $add_faskes = json_decode($add_faskes, true);
+                    
+                    if($add_faskes['success']==TRUE){
+                        Yii::app()->user->setFlash('sukses','Sukses menambahkan faskes');
+                    }
+                    else{
+                        Yii::app()->user->setFlash('gagal','Gagal menambahkan faskes');
+                    }    
+                    
+                }
+            }
             $this->render("add");
+        }
+        
+        public function actionAkun($id){
+            $detail_faskes=Faskes::model()->getFaskes($id);
+            
+            if(isset($_POST['flag'])){
+                if($_POST['username']=="" && $_POST['password']=="" && $_POST['email']=="")
+                {
+                    
+                    Yii::app()->user->setFlash('success','Semua field harus diisi');
+                    
+                }else{
+                    $data_array =  array(
+                        "username" =>$_POST['username'],
+                        "email" =>$_POST['email'],
+                        "role" =>1,
+                        "password" =>$_POST['password']
+                    );
+
+                    $data=http_build_query($data_array);
+                    $register=Api::model()->callAPI("POST", "/user", $data);
+
+                    $response = json_decode($register, true);
+                    if($response['status']<=201){
+                        if(isset($response['data']['userId'])){
+                            $updateFaskes=Faskes::model()->updateFaskes($id,$response['data']['userId']);
+                            
+                            if($updateFaskes['code']==200)
+                                $this->redirect(array("index"));
+                        }else{
+                            Yii::app()->user->setFlash('error','Semua2 field harus diisi');
+                            $this->render("akun", array("faskesId"=>$id, "detail_faskes"=>$detail_faskes));
+                        }
+                    }
+                } 
+                Yii::app()->user->setFlash('success','Semua field harus diisi');
+            }
+            $this->render("akun", array("faskesId"=>$id, "detail_faskes"=>$detail_faskes));
+            
         }
 
 	/**
