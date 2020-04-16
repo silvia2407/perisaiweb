@@ -61,20 +61,40 @@
         </div>
         <?php }?>                                 
     </div><!-- /.box -->
-    <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" id="myModal" style="display: none;">
+        <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Detail Barang</h4>
+              <div class="modal-header">
+                <div class="form-group">
+                    <h4 class="modal-title float-left">Ubah Status</h4>
                 </div>
-                <div class="modal-body">
-                    <div class="fetched-data"></div>
+                <div class="form-group">
+                    <button type="button" class="close float-right" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Keluar</button>
+              </div>
+              <div class="modal-body">
+                <div class="form-group">
+                    <label for="inputStatus">Status</label>
+                    <select class="form-control custom-select" name="status" id="status">
+                        <option selected disabled>Select one</option>
+                        <option value="1">Orang Dalam Pemantauan (ODP)</option>
+                        <option value="2">Orang Tanpa Gejala (OTG)</option>
+                        <option value="3">Pasien Dalam Pemantauan (PDP)</option>
+                        <option value="4">Positive (Positive Covid-19)</option>
+                        <option value="5">Selesai masa karantina</option>
+                        <option value="6">Belum melakukan karantina</option>
+                    </select>
                 </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
             </div>
+            <!-- /.modal-content -->
         </div>
+          <!-- /.modal-dialog -->
     </div>
+    
 </section>

@@ -127,14 +127,6 @@
                             </td>
                     <?php } ?>
                     </tr>
-                    <tr>
-                    <td>Ada Indikasi Terinfeksi Covid19</td>
-                    <?php 
-                        foreach ($diagnosa as $row) { ?>  
-                        <td><?php 
-                            echo ($row['diagStatus']==1) ? "<span class=\"badge bg-danger\">Ya</span>" : "<span class=\"badge bg-success\">Tidak</span>";?></td>
-                    <?php } ?>
-                    </tr>
                 </tbody>                                      
             </table>
         </div>
