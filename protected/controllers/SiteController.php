@@ -68,8 +68,18 @@ class SiteController extends Controller
         
         public function actionDashboard()
 	{
-		
-            $this->render('index');
+            if($_SESSION['role']==1){
+                $data_tracking=Faskes::model()->getTrackingFaskes($_SESSION['faskesId']);
+            }else{
+                $data_tracking=Faskes::model()->getTrackingLocation($_SESSION['areaCode']);
+                //$data_tracking="TIDAK ADA DATA";
+            }
+            
+
+            $data_tracking = array(
+                    "data_tracking" => $data_tracking,
+                );
+            $this->render('index',$data_tracking);
 	}
 
 	/**

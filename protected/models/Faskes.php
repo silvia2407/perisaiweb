@@ -79,4 +79,40 @@ class Faskes extends CActiveRecord
             return $response;
 	}
 
+        public function getTrackingFaskes($faskesId)
+	{
+            $result=Api::model()->callAPI("GET", "/getTrackingFaskes/".$faskesId, false);
+
+            $response = json_decode($result, true);
+
+            if(is_array($response)){
+                    if($response['code']==200){
+                        $data=$response['data'];
+                    }
+            }
+            else{
+                $data = "tidak ada data";
+            }
+
+                    return $data;
+	}
+        
+        
+        public function getTrackingLocation($locationId)
+	{
+            $result=Api::model()->callAPI("GET", "/getTrackingLocation/".$locationId, false);
+
+            $response = json_decode($result, true);
+
+            if(is_array($response)){
+                    if($response['code']==200){
+                        $data=$response['data'];
+                    }
+            }
+            else{
+                $data = "tidak ada data";
+            }
+
+            return $data;
+	}
 }
