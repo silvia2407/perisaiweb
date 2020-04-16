@@ -43,6 +43,7 @@
                                 <th>Telepon</th>
                                 <th>Alamat</th>
                                 <th>Jarak (m)</th>
+                                <th>Waktu</th>
                             </tr>
                             </thead>                                    
                             <?php 
@@ -53,9 +54,10 @@
                                     <td width="3%"><?php echo $counter; ?></td>
                                     <td width="32%"><?php echo $row['nama']." (".$row['kelamin'].")"; ?></td>
                                     <td width="5%"><?php echo $row['usia']; ?></td>
-                                    <td width="15%"><?php echo $row['phone']; ?></td>
-                                    <td width="30%"><?php echo $row['destAddress']; ?></td>
-                                    <td width="15%"><?php echo $row['distanceOrigin']; ?></td>
+                                    <td width="10%"><?php echo $row['phone']; ?></td>
+                                    <td width="25%"><?php echo $row['destAddress']; ?></td>
+                                    <td width="10%"><?php echo $row['distanceOrigin']; ?></td>
+                                    <td width="15%"><?php echo $row['created_at']; ?></td>
                                 </tr> 
                                 </tbody>                                      
                             <?php $counter++; } ?>
