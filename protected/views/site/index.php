@@ -1,7 +1,7 @@
 <!-- PIE CHART -->
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card card-info">
                 <div class="card-header">
                   <h3 class="card-title">Rekap per status</h3>
@@ -19,7 +19,7 @@
               </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="card card-danger">
               <div class="card-header">
                 <h3 class="card-title"><i class="fa fa-fw fa-table"></i>  Tracking ODP*</h3>
