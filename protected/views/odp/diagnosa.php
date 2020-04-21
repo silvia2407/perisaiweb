@@ -2,11 +2,11 @@
 <!-- Berita -->
     <div class="box box-warning">
         <div class="box-header">
-			<h3 class="box-title">
+			<h4 class="box-title">
                 <i class="fa fa-fw fa-list-alt"></i> 
                 <a href="<?php echo Yii::app()->controller->createUrl('odp/index');?>">
                      List ODP</a> / Diagnosa <?php echo $nama; ?>
-            </h3>								
+            </h4>								
         </div>
         <?php if(!is_array($diagnosa)) { ?>
         <div class="box box-warning">
@@ -24,7 +24,7 @@
                     <?php 
                         $counter = 1;
                         foreach ($diagnosa as $row) { ?>  
-                        <th width="10%">#<?php echo $counter." - ".$row['insertDate'];?></th>
+                        <th width="10%">#<?php echo $counter." - ".date('d-m-Y', strtotime($row['insertDate']));?></th>
                     <?php $counter++; } ?>
                 </tr>
                 </thead>

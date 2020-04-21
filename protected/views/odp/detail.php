@@ -2,17 +2,17 @@
 <!-- Berita -->
     <div class="box box-warning">
         <div class="box-header">
-			<h3 class="box-title">
+			<h4 class="box-title">
                 <i class="fa fa-fw fa-list-alt"></i> 
                 <a href="<?php echo Yii::app()->controller->createUrl('odp/index');?>">
                      List ODP</a> / Detail Data Orang Dalam Pengawasan
-            </h3>								
+            </h4>								
         </div>
         <?php if(!is_array($data_odp)) { ?>
         <div class="box box-warning">
-            <h3 class="box-title">
+            <h4 class="box-title">
                 <?php echo $data_odp; ?>
-            </h3>
+            </h4>
         </div>    
         <?php } else{ ?>                             
         <div class="box-body table-responsive">
@@ -61,16 +61,22 @@
                     </tr>
                     <tr>
                         <td width="15%">Tanggal Kedatangan :</td>
-                        <td width="50%"><?php echo $data_odp['arrivalDate']; ?></td>
+                        <td width="50%"><?php echo date('d-m-Y', strtotime($data_odp['arrivalDate']));?></td>
                     </tr>
                     <tr>
                         <td width="15%">Status :</td>
-                        <td width="50%"><?php echo $data_odp['personStatus']; ?></td>
+                        <td width="50%"><?php echo Odp::model()->getStatusById($data_odp['personStatus']); ?></td>
                     </tr>
                     <tr>
                         <td width="15%">Faskes :</td>
-                        <td width="50%"><?php echo $data_odp['faskesId']; ?></td>
+                        <td width="50%"><?php echo Odp::model()->getFaskesName($data_odp['faskesId']); ?></td>
                     </tr>  
+                    <tr>
+                        <td width="15%">Info Lokasi :</td>
+                        <td width="50%"><?php 
+                            echo ($data_odp['latitude']!='' and $data_odp['longitude']!='') ? "<a href=\"".Yii::app()->controller->createUrl('odp/map',array('latitude'=>$data_odp['latitude'],'longitude'=>$data_odp['longitude']))."\">
+                             <i class=\"fa fa-fw fa-map\"></i></a>" : "-";?></td>
+                    </tr>
                 </tbody>                                      
             </table>
         </div>

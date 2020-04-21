@@ -28,7 +28,7 @@ class OdpController extends Controller
 	{
 		return array(
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','detail','diagnosa','update','travel'),
+				'actions'=>array('index','detail','diagnosa','update','travel','tracking','map'),
                                 'expression'=>function($user){
                                         return $_SESSION['role']<=2;
                                 },
@@ -44,13 +44,25 @@ class OdpController extends Controller
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionIndex(){
-		$data_odp=Odp::model()->getPersonByFaskesId($_SESSION['faskesId']);
-
-		$data_view = array(
-			"data_odp" => $data_odp,
+		if ($_SESSION['role']==1){
+			$data_odp=Odp::model()->getPersonByFaskesId($_SESSION['faskesId']);
+			$data_view = array(
+				"data_odp" => $data_odp,
 			);
 
-        $this->render('index',$data_view);
+        	$this->render('index',$data_view);
+		}else{
+			$data_odp=Odp::model()->getPersonByAreaCode($_SESSION['areaCode']);
+			
+			$data_view = array(
+				"data_odp" => $data_odp,
+				);
+
+	        $this->render('index_dinkes',$data_view);
+		}
+		
+
+		
     }
 
     /**
@@ -102,6 +114,39 @@ class OdpController extends Controller
 		$this->render('travel',$data_view);
 	}
     
+
+    /**
+	 * Displays a particular model.
+	 * @param integer $id the ID of the model to be displayed
+	 */
+	public function actionTracking($id)
+	{
+		$tracking=Odp::model()->getTrackingPerson($id);
+		$nama = Odp::model()->getNameById($id);
+
+		$data_view = array(
+			"tracking" => $tracking,
+			"nama" => $nama,
+			);
+
+		$this->render('tracking',$data_view);
+	}
+
+	 /**
+	 * Displays a particular model.
+	 * @param integer $id the ID of the model to be displayed
+	 */
+	public function actionMap($latitude,$longitude)
+	{
+		
+		$data_view = array(
+			"latitude" => $latitude,
+			"longitude" => $longitude,
+			);
+
+		$this->render('map',$data_view);
+	}
+
     /**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed

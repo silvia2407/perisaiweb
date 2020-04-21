@@ -152,7 +152,7 @@
                 $class_menu_faskes="nav-link active";
             }
             else{
-                $active_page="Orang Dalam Pengawasan";
+                $active_page="Orang Dalam Pemantauan";
                 $class_menu_odp="nav-link active";
             }
       ?> 
@@ -240,7 +240,7 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="<?php echo Yii::app()->request->baseUrl; ?>">Home</a></li>
+              <li class="breadcrumb-item"><a href="<?php echo Yii::app()->controller->createUrl('site/dashboard')?>">Home</a></li>
               <li class="breadcrumb-item active"><?php echo $active_page; ?></li>
             </ol>
           </div><!-- /.col -->
@@ -276,7 +276,7 @@
               <div class="inner">
                 <h3><?php echo $_SESSION['odp'];?><sup style="font-size: 20px">orang</sup></h3>
 
-                <p>Orang Dalam Pengawasan (ODP)</p>
+                <p>Orang Dalam Pemantauan (ODP)</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
@@ -291,7 +291,7 @@
               <div class="inner">
                 <h3><?php echo $_SESSION['pdp'];?><sup style="font-size: 20px">orang</sup></h3>
 
-                <p>Pasien Dalam Pengawasan (PDP)</p>
+                <p>Pasien Dalam Pemantauan (PDP)</p>
               </div>
               <div class="icon">
                 <i class="ion ion-medkit"></i>

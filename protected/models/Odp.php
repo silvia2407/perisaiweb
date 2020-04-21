@@ -44,6 +44,25 @@ class Odp extends CActiveRecord
 		return $data;
 	}
 
+	//Fungsi Filter List ODP by AreaCode
+	public function getPersonByAreaCode($areaCode)
+	{
+        $result=Api::model()->callAPI("GET", "/personByArea/".$areaCode, false);
+
+        $response = json_decode($result, true);
+        
+        if(is_array($response)){
+        	if($response['code']==200){
+	            $data=$response['data'];
+	        }
+        }
+    	else{
+            $data = "tidak ada data";
+        }
+    
+		return $data;
+	}
+
 	//Fungsi Get ODP Detail By Person ID
 	public function getPersonById($personId)
 	{
@@ -154,6 +173,44 @@ class Odp extends CActiveRecord
 		            default:
 		                $data = $statusDesc;
 		        }
+			}
+        }
+    	else{
+            $data = "tidak ada data";
+        }
+    
+		return $data;
+	}
+
+	//Fungsi Get faskesName By faskesID
+	public function getFaskesName($faskesId)
+	{
+        $result=Api::model()->callAPI("GET", "/faskesName/".$faskesId, false);
+
+        $response = json_decode($result, true);
+        
+        if(is_array($response)){
+        	if($response['code']==200){
+	            $data=$response['data'][0]['faskesName'];
+			}
+        }
+    	else{
+            $data = "tidak ada data";
+        }
+    
+		return $data;
+	}
+
+	//Fungsi Get Tracking By personID
+	public function getTrackingPerson($personId)
+	{
+        $result=Api::model()->callAPI("GET", "/person/getlocation/".$personId, false);
+
+        $response = json_decode($result, true);
+        
+        if(is_array($response)){
+        	if($response['code']==200){
+	            $data=$response['data'];
 			}
         }
     	else{
